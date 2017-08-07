@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+<h:head>
+    <title>Login</title>
+</h:head>
+<h:body>
+    <f:view>
+        <div class="container" style="padding-top: 50px" align="right">
+            <h:form class="form-inline" >
+                <div class="row" align="center">
+                    <div class="form-group">
+                        <h:outputLabel value="You were successfully logged out."/>
+                    </div>
+                </div>
+
+                <div class="row" align="center">
+                    <div class="form-group">
+                        <h:outputLabel value="Continue here:"/>
+                    </div>
+
+                    <div class="form-group">
+                        <h:button id="homeBtn" styleClass="btn btn-primary" outcome="/faces/pages/user.xhtml" value="Home"/>
+                    </div>
+                </div>
+            </h:form>
+        </div>
+    </f:view>
+</h:body>
+</html>

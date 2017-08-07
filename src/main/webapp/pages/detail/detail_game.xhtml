@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+
+<h:head>
+    <title>Detail #{gameController.getGame(request.getParameter('id')).name}</title>
+</h:head>
+<h:body>
+    <f:view>
+        <div class="container-fluid">
+            <ui:include src="/pages/utils/nav-bar.xhtml" />
+            <h2>Detail #{gameController.getGame(request.getParameter('id')).name}</h2>
+            <h3>Parametry</h3>
+            <h:outputText value = "#{gameController.getGame(request.getParameter('id')).parameters}" />
+            <h3>Popis</h3>
+            <h:outputText value = "#{gameController.getGame(request.getParameter('id')).description} " />
+            vyrobce: <h:link value="#{manufacturerController.getManufacturer(request.getParameter('id')).name}" outcome="/faces/pages/detail/detail_manufacturer.xhtml?id=#{manufacturerController.getManufacturer(request.getParameter('id')).id}&amp;id2=#{playerController.getPlayer(request.getParameter('id2')).id}" />
+
+            <h:form>
+                <div class="form-group">
+                    <h:button class="btn btn-primary" value="Recenze" outcome="/faces/pages/revue.xhtml?id=#{gameController.getGame(request.getParameter('id')).id}&amp;id2=#{playerController.getPlayer(request.getParameter('id2')).id}"/>
+                    <h:commandButton class="btn btn-success" value="Koupit" action="#{billController.createBill(gameController.getGame(request.getParameter('id')), playerController.getPlayer(request.getParameter('id2')))}">
+                        <f:param name="id" value="#{gameController.getGame(request.getParameter('id')).id}"/>
+                        <f:param name="id2" value="#{playerController.getPlayer(request.getParameter('id2')).id}"/>
+                    </h:commandButton>
+            <!--<h:button class="btn btn-success" value="Koupit" outcome="faces/pages/.xhtml?id=#{gameController.getGame(request.getParameter('id')).id}&amp;id2=#{playerController.getPlayer(request.getParameter('id2')).id}"/>-->
+                </div>
+            </h:form>
+        </div>
+    </f:view>
+</h:body>
+</html>

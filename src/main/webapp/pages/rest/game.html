@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple rest api</title>
+
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="contrainer">
+    <table class="table table-bordered table-striped table-hover">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Category</th>
+            <th>Manufacturer</th>
+        </tr>
+        </thead>
+    </table>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script>
+    $(function () {
+        var urlParameter = getUrlParameter('id');
+
+        $.ajax({
+            type: "GET",
+            contentType: "application/json",
+            url: "http://localhost:8080/Digital_distribute_games-1.0-SNAPSHOT/rest/game/category/" + urlParameter,
+            success: function(data){
+                console.log(data);
+                var tr;
+                for (var i = 0; i < data.length; i++) {
+                    tr = $('<tr/>');
+                    tr.append("<td>" + data[i].id + "</td>");
+                    tr.append("<td>" + data[i].name + "</a></td>");
+                    tr.append("<td>" + data[i].description + "</td>");
+                    tr.append("<td> <a href=http://localhost:8080/Digital_distribute_games-1.0-SNAPSHOT/pages/rest/index.html>" + data[i].category.name + "</td>");
+                    tr.append("<td>" + data[i].manufacturer.name + "</td>");
+                    $('table').append(tr);
+                }
+            },
+            error: function () {
+                console.log('failed');
+            }
+        });
+    });
+
+    var getUrlParameter = function getUrlParameter(sParam) {
+        var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+            sURLVariables = sPageURL.split('&'),
+            sParameterName,
+            i;
+
+        for (i = 0; i < sURLVariables.length; i++) {
+            sParameterName = sURLVariables[i].split('=');
+
+            if (sParameterName[0] === sParam) {
+                return sParameterName[1] === undefined ? true : sParameterName[1];
+            }
+        }
+    };
+</script>
+</body>
+</html>

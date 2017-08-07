@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+
+<h:head>
+    <title>Recenze #{gameController.getGame(request.getParameter('id')).name}</title>
+</h:head>
+<h:body>
+    <f:view>
+        <div class="container-fluid">
+            <ui:include src="/pages/utils/nav-bar.xhtml" />
+            <h2>Recenze #{gameController.getGame(request.getParameter('id')).name} </h2>
+
+            <div class="form-group">
+                <h3>Napis recenzi</h3>
+                <input type="hidden" id="game" value="#{gameController.getGame(request.getParameter('id')).name}"/>
+                <input type="hidden" id="user" value="#{playerController.getPlayer(request.getParameter('id2')).username}"/>
+                <label for="nameRevue">Název</label>
+                <input type="text" class="form-control" id="nameRevue"/>
+
+                <label for="nameDescription">Text recenze</label>
+                <textarea class="form-control" id = "nameDescription"  cols="100" rows="5"/>
+
+                <button type="button" id="open" class="btn btn-primary" onclick="openSocket();">
+                    Open Websocket
+                </button>
+                <button type="button" id="createRevue" class="btn btn-success" onclick="send();">
+                    Create New Revue
+                </button>
+                <button id="close" class="btn btn-danger" onclick="closeSocket();" >
+                    Close Websocket
+                </button>
+            </div>
+            <!-- Server responses get written here -->
+            <div id="messages"></div>
+        </div>
+    </f:view>
+</h:body>
+
+<script language="javascript" type="text/javascript">
+    var webSocket;
+    var messages = document.getElementById("messages");
+
+
+    function openSocket(){
+        // Ensures only one connection is open at a time
+        if(webSocket !== undefined &amp;&amp; webSocket.readyState !== WebSocket.CLOSED){
+            writeResponse("WebSocket is already opened.");
+            return;
+        }
+        // Create a new instance of the websocket
+        webSocket = new WebSocket("ws://localhost:8080/Digital_distribute_games-1.0-SNAPSHOT/newRevueWebSocket/#{gameController.getGame(request.getParameter('id')).id}");
+
+        /**
+         * Binds functions to the listeners for the websocket.
+         */
+        webSocket.onopen = function(event){
+            if(event.data === undefined)
+                return;
+
+            writeResponse(event.data);
+        };
+
+        webSocket.onmessage = function(event){
+            writeResponse(event.data);
+        };
+
+        webSocket.onclose = function(event){
+            writeResponse("Connection closed");
+        };
+    }
+
+    /**
+     * Sends the value of the text input to the server
+     */
+    function send(){
+        var text = "Kdo: ";
+        text += document.getElementById("user").value;
+        text += "&lt;br/>Hra: ";
+        text += document.getElementById("game").value;
+        text += "&lt;br/>Nazev: ";
+        text += document.getElementById("nameRevue").value;
+        text += "&lt;br/>Popis:&lt;br/>";
+        text += destription = document.getElementById("nameDescription").value;
+        console.log(text);
+
+        webSocket.send(text);
+    }
+
+    function closeSocket(){
+        webSocket.close();
+    }
+
+    function writeResponse(text){
+        messages.innerHTML += "&lt;br/>" + text;
+    }
+
+</script>
+</html>

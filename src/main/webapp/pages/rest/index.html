@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple rest api</title>
+
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="contrainer">
+        <table class="table table-bordered table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script>
+        var items = [];
+
+        $(function () {
+            $.ajax({
+                type: "GET",
+                contentType: "application/json",
+                url: "http://localhost:8080/Digital_distribute_games-1.0-SNAPSHOT/rest/category/",
+                success: function(data){
+                    var tr;
+                    for (var i = 0; i < data.length; i++) {
+                        tr = $('<tr/>');
+                        tr.append("<td>" + data[i].id + "</td>");
+                        items.push(data[i].id);
+                        tr.append("<td> <a href=http://localhost:8080/Digital_distribute_games-1.0-SNAPSHOT/pages/rest/game.html?id="  + items[i] + ">" + data[i].name + "</a></td>");
+                        tr.append("<td>" + data[i].description + "</td>");
+                        $('table').append(tr);
+                    }
+                },
+                error: function () {
+                    console.log('failed');
+                }
+            });
+            console.log(items);
+        });
+    </script>
+</body>
+</html>

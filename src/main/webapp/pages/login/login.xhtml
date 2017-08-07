@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+
+<h:head>
+    <title>Login</title>
+</h:head>
+<h:body>
+    <f:view>
+        <div class="container" align="center">
+            <h2>Login</h2>
+        </div>
+        <div class="container" style="padding-top: 50px">
+            <form id="loginForm" class="form" method="post" action="j_security_check">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" class="form-control" id="username" name="j_username"/>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control" id="password" name="j_password"/>
+                </div>
+                <div class="form-group">
+                    <button id="login" type="submit" class="btn btn-success">Login</button>
+                </div>
+            </form>
+        </div>
+    </f:view>
+</h:body>
+</html>
